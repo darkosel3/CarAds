@@ -1,0 +1,34 @@
+@model List<CarAds.Models.Ad>
+@{
+    ViewData["Title"] = "All Car Listings";
+}
+
+<div class="car-listings">
+    <h1>All Car Listings</h1>
+    @if (Model != null && Model.Any())
+    {
+        <div class="grid">
+            @foreach (var car in Model)
+            {
+                <div class="car-card">
+                    <img alt="@car.Brand @car.Model" />
+                    @* <img src="@car.ImagePath" alt="@car.Brand @car.Model" /> TODO kad se doda img path iskoristi ovo *@
+                    <h2>@car.Brand @car.Model (@car.Year)</h2>
+                    <p><strong>Mileage:</strong> @car.Kilometers km</p>
+                    @* <p><strong>Fuel:</strong> @car.Fuel</p> TODO dodaj fuel u model*@
+                    <p><strong>Price:</strong> €@car.Price</p>
+                    <p>@car.Description</p>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No listings available.</p>
+    }
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/list.css" />
+}
+

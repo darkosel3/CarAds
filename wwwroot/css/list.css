@@ -1,0 +1,40 @@
+.car-listings {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.car-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.car-card:hover {
+    transform: scale(1.02);
+}
+
+.car-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.car-card h2 {
+    margin: 10px 0 5px;
+    font-size: 20px;
+}
+
+.car-card p {
+    margin: 4px 0;
+}
