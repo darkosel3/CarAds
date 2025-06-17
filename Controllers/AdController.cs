@@ -54,8 +54,10 @@ namespace CarAds.Controllers
         {
             if (ModelState.IsValid)
             {
-                ad.UserId = ObjectId.Parse(_userManager.GetUserId(User));
+                //ad.UserId = ObjectId.Parse(_userManager.GetUserId(User));
+                ad.UserId = ObjectId.GenerateNewId();
                 ad.CreatedAt = DateTime.UtcNow;
+                
 
                 if (images != null && images.Count > 0)
                 {
@@ -63,7 +65,7 @@ namespace CarAds.Controllers
                 }
 
                 await _ads.InsertOneAsync(ad);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             foreach (var error in ModelState.Values)
             {
@@ -72,7 +74,7 @@ namespace CarAds.Controllers
                     ModelState.AddModelError(string.Empty, subError.ErrorMessage);
                 }
             }
-            return View(ad);
+            return View("AddCar");
         }
         public async Task<IActionResult> Edit(string id)
         {
