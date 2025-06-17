@@ -1,5 +1,8 @@
 ﻿using AspNetCore.Identity.MongoDbCore.Infrastructure;
+<<<<<<< HEAD
 using AutoOglasi.Models;
+=======
+>>>>>>> 0b41a64 (Popravljena sintaksna greska u appsettings.json i dodat UserRole model u i funkcije za kreiranje User-a i Role)
 using CarAds.Models;
 using CarAds.Settings;
 using Microsoft.AspNetCore.Builder;
