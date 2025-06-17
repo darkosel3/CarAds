@@ -1,5 +1,5 @@
 ﻿using AspNetCore.Identity.MongoDbCore.Infrastructure;
-using AutoOglasi.Models;
+using CarAds.Models;
 using CarAds.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
