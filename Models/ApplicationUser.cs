@@ -2,7 +2,7 @@
 using MongoDbGenericRepository.Attributes;
 using System;
 
-namespace AutoOglasi.Models
+namespace CarAds.Models
 {
         [CollectionName("Users")]
         public class ApplicationUser:MongoIdentityUser<Guid>

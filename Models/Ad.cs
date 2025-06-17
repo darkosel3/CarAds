@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace AutoOglasi.Models
+namespace CarAds.Models
 {
     public class Ad
     {

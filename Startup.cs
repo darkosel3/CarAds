@@ -1,5 +1,6 @@
 ﻿using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using AutoOglasi.Models;
+using CarAds.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -23,16 +24,15 @@ namespace AutoOglasi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var mongoDBSettings = Configuration.GetSection(nameof(MongoDbConfig)).Get<MongoDbConfig>(); 
+            services.AddIdentity<ApplicationUser, ApplicationRole>().AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
+                    mongoDBSettings.ConnectionString, // Connection string from MongoDbConfig
+                    mongoDBSettings.Name               // Database name from MongoDbConfig
+                );
             services.AddControllersWithViews();
 
             var mongoClient = new MongoClient("mongodb://localhost:27017");
             var database = mongoClient.GetDatabase("AutoOglasiDB");
-
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
-                    "mongodb://localhost:27017", // Connection string
-                    "AutoOglasiDB"                // Database name
-                );
 
             services.Configure<FormOptions>(options =>
             {

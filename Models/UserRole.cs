@@ -1,6 +1,6 @@
 ﻿namespace CarAds.Models
 {
-    public class Comment
+    public class UserRole
     {
     }
 }
