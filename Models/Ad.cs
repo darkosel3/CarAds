@@ -13,10 +13,6 @@ namespace CarAds.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
 
-        [BsonElement("Title")]
-        [Required(ErrorMessage = "Title is required.")]
-        public string Title { get; set; }
-
         [BsonElement("Brand")]
         [Required(ErrorMessage = "Brand is required.")]
         public  string Brand { get; set; }
@@ -34,8 +30,12 @@ namespace CarAds.Models
         public  decimal Price { get; set; }
 
         [BsonElement("Kilometers")]
-        [Required(ErrorMessage = "The amout of kilometers the vehicle passed is required.")]
+        [Required(ErrorMessage = "The amount of kilometers the vehicle passed is required.")]
         public int Kilometers { get; set; }
+
+        [BsonElement("Description")]
+        [Required(ErrorMessage = "Description is required.")]
+        public string Description { get; set; }
 
         [BsonElement("UserId")]
         [BsonRequired]
