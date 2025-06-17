@@ -14,7 +14,7 @@ using System.Runtime.ConstrainedExecution;
 
 namespace CarAds.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AdController : Controller
     {
         private readonly IMongoCollection<Ad> _ads;
@@ -32,7 +32,7 @@ namespace CarAds.Controllers
             var allAds = _ads.Find(ad => true).ToList();
             return View();
         }
-        public IActionResult Create()
+        public IActionResult AddCar()
         {
             return View();
         }
