@@ -121,7 +121,13 @@ namespace CarAds.Controllers
             if (!ObjectId.TryParse(id, out var objectId))
                 return BadRequest();
 
-            var ad = await _ads.Find(c => c.Id == objectId && c.UserId == ObjectId.Parse(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+            var userIdString = _userManager.GetUserId(User);
+
+            var userId = string.IsNullOrEmpty(userIdString)
+                ? ObjectId.Parse("000000000000000000000001")
+                : ObjectId.Parse(userIdString);
+            
+            var ad = await _ads.Find(c => c.Id == objectId && c.UserId == userId).FirstOrDefaultAsync();
             if (ad == null)
                 return NotFound();
 
