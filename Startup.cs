@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿using AspNetCore.Identity.MongoDbCore.Infrastructure;
+=======
+﻿
+>>>>>>> b6cff88
 using CarAds.Models;
 using CarAds.Settings;
 using Microsoft.AspNetCore.Builder;
