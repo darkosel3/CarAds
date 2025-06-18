@@ -38,7 +38,9 @@ namespace CarAds.Controllers
                     UserName = user.Name,
                     Email = user.Email
                 };
+
                 var result = await _userManager.CreateAsync(appUser, user.Password);
+
                 if (result.Succeeded)
                 {
                     ViewBag.Message = "User created successfully!"; 

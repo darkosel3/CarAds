@@ -12,19 +12,8 @@ namespace CarAds.Settings
         public string Host { get; set; }
         public int Port { get; set; }
 
-<<<<<<< HEAD
-        public string ConnectionString
-        {
-            get
-            {
-                string v = $"mongodb://{Host}:{Port}";
-                return v;
-            }
-        }
-=======
+
         public string ConnectionString => $"mongodb://{Host}:{Port}";
-        
->>>>>>> b6cff88
 
     }
 }

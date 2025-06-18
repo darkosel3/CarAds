@@ -20,50 +20,34 @@ namespace CarAds.Controllers
         private readonly IMongoCollection<Ad> _ads;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AdController(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public AdController(IMongoDatabase database, UserManager<ApplicationUser> userManager)
         {
-            var client = new MongoClient(config.GetConnectionString("MongoDb"));
-            var database = client.GetDatabase("CarAdsDb");
             _ads = database.GetCollection<Ad>("Ads");
             _userManager = userManager;
         }
-        public IActionResult List()
+
+        public IActionResult Index()
         {
             var allAds = _ads.Find(ad => true).ToList();
             return View(allAds);
         }
+
         public IActionResult Create()
         {
             return View();
         }
-
-        //private async Task<List<BsonBinaryData>> ConvertFilesToImagesAsync(List<IFormFile> files)
-        //{
-        //    var imageList = new List<BsonBinaryData>();
-        //    foreach (var file in files)
-        //    {
-        //        using var ms = new MemoryStream();
-        //        await file.CopyToAsync(ms);
-        //        imageList.Add(new BsonBinaryData(ms.ToArray()));
-        //    }
-        //    return imageList;
-        //}
 
         [HttpPost]
         public async Task<IActionResult> Create(Ad ad, List<IFormFile> images)
         {
             if (ModelState.IsValid)
             {
-                //ad.UserId = ObjectId.Parse(_userManager.GetUserId(User));
+                //var userId = _userManager.GetUserId(User);
+                //ad.UserId = new ObjectId(userId);
                 ad.UserId = new ObjectId("000000000000000000000001");
 
                 if (images != null && images.Count > 0)
                 {
-                    var imagePaths = new List<string>();
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-
-                    if (images != null && images.Count > 0)
-                    {
                         var imageList = new List<BsonBinaryData>();
 
                         foreach (var image in images)
@@ -77,11 +61,11 @@ namespace CarAds.Controllers
                         }
 
                         ad.Images = imageList;
-                    }
+                  
                 }
 
                 await _ads.InsertOneAsync(ad);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             foreach (var error in ModelState.Values)
             {
@@ -90,7 +74,7 @@ namespace CarAds.Controllers
                     ModelState.AddModelError(string.Empty, subError.ErrorMessage);
                 }
             }
-            return View("AddCar");
+            return View(ad); // DARKO Comment  -> nema potrebe da se vraca nad add car, vec samo moze da se vraca view sa trenutnim autom View(ad); 
         }
         public async Task<IActionResult> Edit(string id)
         {
@@ -103,6 +87,7 @@ namespace CarAds.Controllers
 
             return View(ad);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, Ad updatedAd, List<IFormFile> newImages)
@@ -123,14 +108,9 @@ namespace CarAds.Controllers
                 existingAd.Price = updatedAd.Price;
                 existingAd.Description = updatedAd.Description;
 
-                // Optional: Replace or append images
-                //if (newImages != null && newImages.Count > 0)
-                //{
-                //    existingAd.Images = await ConvertFilesToImagesAsync(newImages);
-                //}
 
                 await _ads.ReplaceOneAsync(c => c.Id == objectId, existingAd);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
 
             return View(updatedAd);
@@ -140,7 +120,7 @@ namespace CarAds.Controllers
             if (!ObjectId.TryParse(id, out var objectId))
                 return BadRequest();
 
-            var ad = await _ads.Find(c => c.Id == objectId).FirstOrDefaultAsync();
+            var ad = await _ads.Find(c => c.Id == objectId && c.UserId == ObjectId.Parse(_userManager.GetUserId(User))).FirstOrDefaultAsync();
             if (ad == null)
                 return NotFound();
 
@@ -155,7 +135,7 @@ namespace CarAds.Controllers
                 return BadRequest();
 
             await _ads.DeleteOneAsync(c => c.Id == objectId);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
     }
 }
