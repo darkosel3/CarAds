@@ -26,7 +26,7 @@ namespace CarAds.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Required][EmailAddress] string email, [Required] string password, string returnurl)
+        public async Task<IActionResult> Login([EmailAddress] string email,  string password)
         {
             if (ModelState.IsValid)
             {
@@ -36,12 +36,12 @@ namespace CarAds.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(appUser, password, false, false);
                     if (result.Succeeded)
                     {
-                        return Redirect(returnurl ?? "/");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 ModelState.AddModelError(nameof(email), "Login Failed: Invalid Email or Password");
             }
-            return RedirectToAction("Index", "Ad");
+            return View();
         }
 
         public IActionResult AccessDenied()
@@ -51,6 +51,8 @@ namespace CarAds.Controllers
 
 
         [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

@@ -22,9 +22,25 @@
 
                 <ul class="navbar-links" id="navbarMenu">
                     <li><a href="/">Home</a></li>
+                    <p>User authenticated? @User.Identity?.IsAuthenticated</p>
                     <li><a href="/Ad/Index">Browse</a></li>
-                    <li><a href="/Account/Login">Login</a></li>
-                    <li><a href="/User/Register" class="register-btn">Register</a></li>
+                    @{
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li>
+                                <form asp-action="Logout" asp-controller="Account" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btnlogout" type="submit">Logout</button>
+                                </form>
+                            </li>
+                                <li><a href="/Ad/Create">Create listing</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/Account/Login">Login</a></li>
+                            <li><a href="/User/Register" class="register-btn">Register</a></li>
+                        }
+                    }
                 </ul>
             </div>
         </nav>

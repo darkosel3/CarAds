@@ -14,7 +14,6 @@ using System.Runtime.ConstrainedExecution;
 
 namespace CarAds.Controllers
 {
-    //[Authorize]
     public class AdController : Controller
     {
         private readonly IMongoCollection<Ad> _ads;
@@ -26,7 +25,6 @@ namespace CarAds.Controllers
             _userManager = userManager;
         }
 
-        
         public async Task<IActionResult> Index()
         {
             var allAds = await _ads.Find(ad => true).ToListAsync();
@@ -155,6 +153,25 @@ namespace CarAds.Controllers
 
             await _ads.DeleteOneAsync(c => c.Id == objectId);
             return RedirectToAction("Index");
+        }
+        
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> MyAds()
+        {
+
+            var userIdString = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var userId = ObjectId.Parse(userIdString);
+
+
+            var myAds = await _ads.Find(ad => ad.UserId == userId).ToListAsync();
+
+            return View(myAds);
         }
     }
 }

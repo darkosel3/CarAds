@@ -4,6 +4,11 @@
     ViewData["Title"] = "Register";
 }
 
+@* Prikaz validacionih grešaka *@
+<partial name="_ValidationScriptsPartial" />
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <div class="register-container">
     <h1>Create Your Account</h1>
 
@@ -33,4 +38,9 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/register.css" />
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

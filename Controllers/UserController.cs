@@ -28,10 +28,36 @@ namespace CarAds.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> Register(User user)
+        //{
+        //    if(ModelState.IsValid)
+        //    {
+        //        var appUser = new ApplicationUser
+        //        {
+        //            UserName = user.Name,
+        //            Email = user.Email
+        //        };
+
+        //        var result = await _userManager.CreateAsync(appUser, user.Password);
+
+        //        if (result.Succeeded)
+        //        {
+        //            ViewBag.Message = "User created successfully!"; 
+        //        }
+        //        else
+        //        {
+        //            foreach (var error in result.Errors)
+        //                ModelState.AddModelError(string.Empty, error.Description);
+        //        }
+        //    }
+        //    return RedirectToAction("Login", "Account");
+        //}
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var appUser = new ApplicationUser
                 {
@@ -43,15 +69,18 @@ namespace CarAds.Controllers
 
                 if (result.Succeeded)
                 {
-                    ViewBag.Message = "User created successfully!"; 
+                    // korisnik je uspešno kreiran i upisan u MongoDB
+                    return RedirectToAction("Index", "Home");
                 }
-                else
+
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                        ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            return RedirectToAction("Login", "Account");
+
+            // ako nesto nije u redu, vrati registracioni formular sa greškama
+            return View(user);
         }
 
         [HttpPost]

@@ -56,6 +56,30 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
+    .navbar-links .btnlogout {
+        font-family: 'Segoe UI', sans-serif;
+        color: #e0e7ff;
+        background: none;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer; /* bitno da pokazuje da je klikabilno */
+        text-decoration: none;
+        display: inline; /* da se ponaša kao <a> */
+        line-height: 1.5; /* da se vertikalno uklapa */
+        transition: background-color 0.2s ease-in-out;
+    }
+
+        .navbar-links .btnlogout:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    .navbar-links form {
+        margin: 0px;
+        padding: 0px;
+    }
+
     .navbar-links .register-btn {
         background-color: #2563eb;
         color: #fff;

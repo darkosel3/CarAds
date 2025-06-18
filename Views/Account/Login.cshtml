@@ -2,12 +2,16 @@
 
 @{
     ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="login-container">
     <h1>Login to Your Account</h1>
     
     <form asp-action="Login" method="post" class="login-form">
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Email">Email</label>
             <input asp-for="Email" class="form-control" type="email" required />
@@ -19,10 +23,11 @@
         </div>
         
         <button type="submit" class="btn-login">Login</button>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     </form>
 
     <p class="register-link">
-        Don't have an account? <a href="/Account/Register">Register here</a>
+        Don't have an account? <a href="/User/Register">Register here</a>
     </p>
 </div>
 
