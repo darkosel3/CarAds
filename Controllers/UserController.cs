@@ -18,7 +18,7 @@ namespace CarAds.Controllers
             this._roleManager = roleManager;
         }
 
-        public IActionResult Create()
+        public IActionResult Register()
         {
             return View();
         }
@@ -29,7 +29,7 @@ namespace CarAds.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Register(User user)
         {
             if(ModelState.IsValid)
             {
@@ -51,7 +51,7 @@ namespace CarAds.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            return View();
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]

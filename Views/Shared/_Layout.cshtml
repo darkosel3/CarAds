@@ -4,40 +4,56 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AutoOglasi</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/nav.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarAds</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            @* Treba da se napravi if statement da proveri da li je korisnik ulogovan i shodno tome da mu pise login ili register *@ 
-                            @{
-                                if (User?.Identity.IsAuthenticated ?? false)
-                                {
-                                    <li class="nav-item">
-                                        <u>Welcome: @User.Identity.Name</u>
-                                        <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Logout</a>
-                                    </li>
-                                }
-                            }
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Register</a>
+        @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> *@
+        @*     <div class="container-fluid"> *@
+        @*         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarAds</a> *@
+        @*         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" *@
+        @*                 aria-expanded="false" aria-label="Toggle navigation"> *@
+        @*             <span class="navbar-toggler-icon"></span> *@
+        @*         </button> *@
+        @*         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"> *@
+        @*             <ul class="navbar-nav flex-grow-1"> *@
+        @*                 <li class="nav-item"> *@
+        @*                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a> *@
+        @*                 </li> *@
+        @*                 <li class="nav-item"> *@
+        @*                     @{ *@
+        @*                         if (User?.Identity.IsAuthenticated ?? false) *@
+        @*                         { *@
+        @*                             <li class="nav-item"> *@
+        @*                                 <u>Welcome: @User.Identity.Name</u> *@
+        @*                                 <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Logout</a> *@
+        @*                             </li> *@
+        @*                         } *@
+        @*                     } *@
+        @*                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Register</a> *@
+        @*                 </li> *@
+        @*             </ul> *@
+        @*         </div> *@
+        @*     </div> *@
+        @* </nav> *@
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="/" class="navbar-logo">CarListings</a>
 
-                        </li>
-                    </ul>
-                </div>
+                <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle menu">
+                    ☰
+                </button>
+
+                <ul class="navbar-links" id="navbarMenu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Cars/List">Browse</a></li>
+                    <li><a href="/Account/Login">Login</a></li>
+                    <li><a href="/Account/Register" class="register-btn">Register</a></li>
+                </ul>
             </div>
         </nav>
     </header>
@@ -47,9 +63,16 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - AutoOglasi - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; Ognjen Stanojevic, Darko Sel, Uros Popovic. All rights reserved (RAF).</p>
+            </div>
+            <div class="footer-right">
+                <a href="/About">About</a>
+                <a href="/Contact">Contact</a>
+                <a href="/Privacy">Privacy</a>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
