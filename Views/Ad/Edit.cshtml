@@ -7,7 +7,7 @@
 <div class="content-holder">
         <div class="container">
             <h1>Post a Vehicle for Sale</h1>
-            <form asp-action="Create" method="POST" enctype="multipart/form-data">
+            <form asp-action="Edit" method="POST" enctype="multipart/form-data">
                 <label asp-for="Brand">Brand:</label>
                 <input asp-for="Brand" type="text" id="brand" name="brand" required>
     
@@ -38,7 +38,7 @@
                 <label for="Images">Upload Vehicle Image:</label>
             <input for="Images" type="file" id="Images" name="Images" accept="image/*">
     
-                <button type="submit">Submit Listing</button>
+                <button type="submit">Edit listing</button>
             </form>
         </div>
     </div>
