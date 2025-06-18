@@ -25,6 +25,10 @@ namespace CarAds.Models
         [Required(ErrorMessage = "Year is required.")]
         public int Year { get; set; }
 
+        [BsonElement("Fuel")]
+        [Required(ErrorMessage = "Fuel type is required.")]
+        public string Fuel { get; set; }
+
         [BsonElement("Price")]
         [Required(ErrorMessage = "Price is required.")]
         public  decimal Price { get; set; }
