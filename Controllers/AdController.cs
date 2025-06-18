@@ -37,6 +37,18 @@ namespace CarAds.Controllers
             return View();
         }
 
+        public IActionResult Details(string id)
+        {
+            if (!ObjectId.TryParse(id, out var objectId))
+                return BadRequest("Neispravan ID");
+
+            var detailedAd = _ads.Find(a => a.Id == objectId).FirstOrDefaultAsync();
+            if(detailedAd == null)
+                return NotFound("Ad does not exist");
+            return View(detailedAd);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Create(Ad ad, List<IFormFile> images)
         {
