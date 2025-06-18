@@ -33,7 +33,7 @@ namespace AutoOglasi
             services.AddControllersWithViews();
 
             var mongoClient = new MongoClient("mongodb://localhost:27017");
-            var database = mongoClient.GetDatabase("CarAdsDB");
+            var database = mongoClient.GetDatabase("CarAdsDb");
 
             services.Configure<FormOptions>(options =>
             {
@@ -44,7 +44,7 @@ namespace AutoOglasi
             services.AddSingleton(database);
 
             services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient("mongodb://localhost:27017"));
-            services.AddScoped(sp => sp.GetRequiredService<IMongoClient>().GetDatabase("CarAdsDB"));
+            services.AddScoped(sp => sp.GetRequiredService<IMongoClient>().GetDatabase("CarAdsDb"));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

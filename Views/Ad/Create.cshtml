@@ -1,3 +1,4 @@
+@@ -1,48 +1,39 @@
 @model CarAds.Models.Ad
 
 @{
@@ -11,16 +12,16 @@
             <form asp-action="Create" method="POST" enctype="multipart/form-data">
                 <label asp-for="Brand">Brand:</label>
                 <input asp-for="Brand" type="text" id="brand" name="brand" required>
-    
+
                 <label asp-for="Model">Model:</label>
                 <input asp-for="Model" type="text" required>
-    
+
                 <label asp-for="Year">Year of Manufacture:</label>
                 <input asp-for="Year" type="number" id="Year" name="Year" min="1950" max="2025" required>
-    
+
                 <label asp-for="Kilometers">Mileage (km):</label>
             <input asp-for="Kilometers" type="number" id="Kilometers" name="Kilometers" required>
-    
+
                 <label asp-for="Fuel">Fuel Type:</label>
             <select asp-for="Fuel" id="fuel" name="fuel" required>
                     <option value="">-- Select --</option>
@@ -29,20 +30,20 @@
                     <option value="hybrid">Hybrid</option>
                     <option value="electric">Electric</option>
                 </select>
-    
+
                 <label asp-for="Price">Price (€):</label>
             <input asp-for="Price" type="number" id="Price" name="Price" required>
-    
+
                 <label asp-for="Description">Vehicle Description:</label>
             <textarea asp-for="Description" id="Description" name="Description" rows="4"></textarea>
-    
+
                 <label for="Images">Upload Vehicle Image:</label>
             <input for="Images" type="file" id="Images" name="Images" accept="image/*">
-    
+
                 <button type="submit">Submit Listing</button>
             </form>
         </div>
-    </div>
+</div>
 
 @section Styles {
     <link rel="stylesheet" href="~/css/add.css" />

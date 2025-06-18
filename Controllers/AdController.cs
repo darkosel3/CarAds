@@ -26,9 +26,10 @@ namespace CarAds.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        
+        public async Task<IActionResult> Index()
         {
-            var allAds = _ads.Find(ad => true).ToList();
+            var allAds = await _ads.Find(ad => true).ToListAsync();
             return View(allAds);
         }
 
@@ -86,7 +87,7 @@ namespace CarAds.Controllers
                     ModelState.AddModelError(string.Empty, subError.ErrorMessage);
                 }
             }
-            return View(ad); // DARKO Comment  -> nema potrebe da se vraca nad add car, vec samo moze da se vraca view sa trenutnim autom View(ad); 
+            return View(ad); // DARKO Comment  -> nema potrebe da se vraca nad add car, vec samo moze da se vraca view sa trenutnim autom View(ad);
         }
         public async Task<IActionResult> Edit(string id)
         {
@@ -132,7 +133,13 @@ namespace CarAds.Controllers
             if (!ObjectId.TryParse(id, out var objectId))
                 return BadRequest();
 
-            var ad = await _ads.Find(c => c.Id == objectId && c.UserId == ObjectId.Parse(_userManager.GetUserId(User))).FirstOrDefaultAsync();
+            var userIdString = _userManager.GetUserId(User);
+
+            var userId = string.IsNullOrEmpty(userIdString)
+                ? ObjectId.Parse("000000000000000000000001")
+                : ObjectId.Parse(userIdString);
+            
+            var ad = await _ads.Find(c => c.Id == objectId && c.UserId == userId).FirstOrDefaultAsync();
             if (ad == null)
                 return NotFound();
 
