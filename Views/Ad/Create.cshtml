@@ -1,39 +1,49 @@
+@@ -1,48 +1,39 @@
+@model CarAds.Models.Ad
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Add Car";
 }
 
-<div class="register-container">
-    <h1>Create Your Account</h1>
+<div class="content-holder">
+        <div class="container">
+            <h1>Post a Vehicle for Sale</h1>
+            <form asp-action="Create" method="POST" enctype="multipart/form-data">
+                <label asp-for="Brand">Brand:</label>
+                <input asp-for="Brand" type="text" id="brand" name="brand" required>
 
-    <form asp-action="Register" method="post" class="register-form">
-        <div class="form-group">
-            <label asp-for="FullName">Full Name</label>
-            <input asp-for="FullName" class="form-control" type="text" required />
+                <label asp-for="Model">Model:</label>
+                <input asp-for="Model" type="text" required>
+
+                <label asp-for="Year">Year of Manufacture:</label>
+                <input asp-for="Year" type="number" id="Year" name="Year" min="1950" max="2025" required>
+
+                <label asp-for="Kilometers">Mileage (km):</label>
+            <input asp-for="Kilometers" type="number" id="Kilometers" name="Kilometers" required>
+
+                <label asp-for="Fuel">Fuel Type:</label>
+            <select asp-for="Fuel" id="fuel" name="fuel" required>
+                    <option value="">-- Select --</option>
+                    <option value="petrol">Petrol</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="electric">Electric</option>
+                </select>
+
+                <label asp-for="Price">Price (€):</label>
+            <input asp-for="Price" type="number" id="Price" name="Price" required>
+
+                <label asp-for="Description">Vehicle Description:</label>
+            <textarea asp-for="Description" id="Description" name="Description" rows="4"></textarea>
+
+                <label for="Images">Upload Vehicle Image:</label>
+            <input for="Images" type="file" id="Images" name="Images" accept="image/*">
+
+                <button type="submit">Submit Listing</button>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label asp-for="Email">Email</label>
-            <input asp-for="Email" class="form-control" type="email" required />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Password">Password</label>
-            <input asp-for="Password" class="form-control" type="password" required />
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ConfirmPassword">Confirm Password</label>
-            <input asp-for="ConfirmPassword" class="form-control" type="password" required />
-        </div>
-
-        <button type="submit" class="btn-register">Register</button>
-    </form>
-
-    <p class="login-link">
-        Already have an account? <a href="/Account/Login">Login here</a>
-    </p>
 </div>
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/register.css" />
+    <link rel="stylesheet" href="~/css/add.css" />
 }
