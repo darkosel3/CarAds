@@ -27,43 +27,61 @@ namespace CarAds.Controllers
             _ads = database.GetCollection<Ad>("Ads");
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public IActionResult List()
         {
             var allAds = _ads.Find(ad => true).ToList();
-            return View();
+            return View(allAds);
         }
-        public IActionResult AddCar()
+        public IActionResult Create()
         {
             return View();
         }
 
-        private async Task<List<BsonBinaryData>> ConvertFilesToImagesAsync(List<IFormFile> files)
-        {
-            var imageList = new List<BsonBinaryData>();
-            foreach (var file in files)
-            {
-                using var ms = new MemoryStream();
-                await file.CopyToAsync(ms);
-                imageList.Add(new BsonBinaryData(ms.ToArray()));
-            }
-            return imageList;
-        }
+        //private async Task<List<BsonBinaryData>> ConvertFilesToImagesAsync(List<IFormFile> files)
+        //{
+        //    var imageList = new List<BsonBinaryData>();
+        //    foreach (var file in files)
+        //    {
+        //        using var ms = new MemoryStream();
+        //        await file.CopyToAsync(ms);
+        //        imageList.Add(new BsonBinaryData(ms.ToArray()));
+        //    }
+        //    return imageList;
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Create(Ad ad, List<IFormFile> images)
         {
             if (ModelState.IsValid)
             {
-                ad.UserId = ObjectId.Parse(_userManager.GetUserId(User));
-                ad.CreatedAt = DateTime.UtcNow;
+                //ad.UserId = ObjectId.Parse(_userManager.GetUserId(User));
+                ad.UserId = new ObjectId("000000000000000000000001");
 
                 if (images != null && images.Count > 0)
                 {
-                    ad.Images = await ConvertFilesToImagesAsync(images);
+                    var imagePaths = new List<string>();
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+                    if (images != null && images.Count > 0)
+                    {
+                        var imageList = new List<BsonBinaryData>();
+
+                        foreach (var image in images)
+                        {
+                            if (image.Length > 0)
+                            {
+                                using var ms = new MemoryStream();
+                                await image.CopyToAsync(ms);
+                                imageList.Add(new BsonBinaryData(ms.ToArray()));
+                            }
+                        }
+
+                        ad.Images = imageList;
+                    }
                 }
 
                 await _ads.InsertOneAsync(ad);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             foreach (var error in ModelState.Values)
             {
@@ -106,13 +124,13 @@ namespace CarAds.Controllers
                 existingAd.Description = updatedAd.Description;
 
                 // Optional: Replace or append images
-                if (newImages != null && newImages.Count > 0)
-                {
-                    existingAd.Images = await ConvertFilesToImagesAsync(newImages);
-                }
+                //if (newImages != null && newImages.Count > 0)
+                //{
+                //    existingAd.Images = await ConvertFilesToImagesAsync(newImages);
+                //}
 
                 await _ads.ReplaceOneAsync(c => c.Id == objectId, existingAd);
-                return RedirectToAction("MojiOglasi");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(updatedAd);
@@ -137,7 +155,7 @@ namespace CarAds.Controllers
                 return BadRequest();
 
             await _ads.DeleteOneAsync(c => c.Id == objectId);
-            return RedirectToAction("MojiOglasi");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
