@@ -47,3 +47,6 @@
             margin: 0 10px;
         }
 }
+body {
+    margin-bottom: 5px !important;
+}
