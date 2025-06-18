@@ -4,7 +4,36 @@
 
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - CarListings</title>
+	<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+</head>
+<body>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Find Your Next Ride</h1>
+            <p>Browse hundreds of listings and drive away with the perfect car today.</p>
+            <a href="/Cars/List" class="hero-button">Browse Cars</a>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="features-container">
+            <div class="feature-box">
+                <h3>Huge Selection</h3>
+                <p>Browse listings from all over the country, updated daily.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to list your car?</h2>
+        <p>Create an account and start posting in minutes.</p>
+        <a href="/Account/Register" class="cta-button">Get Started</a>
+    </section>
+</body>
+</html>
