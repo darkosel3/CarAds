@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AutoOglasi</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarAds</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,6 +24,15 @@
                         </li>
                         <li class="nav-item">
                             @* Treba da se napravi if statement da proveri da li je korisnik ulogovan i shodno tome da mu pise login ili register *@ 
+                            @{
+                                if (User?.Identity.IsAuthenticated ?? false)
+                                {
+                                    <li class="nav-item">
+                                        <u>Welcome: @User.Identity.Name</u>
+                                        <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Logout</a>
+                                    </li>
+                                }
+                            }
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Register</a>
 
                         </li>

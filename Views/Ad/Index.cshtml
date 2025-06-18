@@ -1,6 +1,7 @@
 @model List<CarAds.Models.Ad>
 @{
     ViewData["Title"] = "All Car Listings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="car-listings">
@@ -13,12 +14,11 @@
                 <div class="car-card">
                     <img alt="@car.Brand @car.Model" />
                     @* <img src="@car.ImagePath" alt="@car.Brand @car.Model" /> TODO kad se doda img path iskoristi ovo  *@
-                    <img src="@GetFirstImage(car)" class="card-img-top" alt="Car Image" width="300" height="350">
+                    <a href="@Url.Action("Details","Ad",new { id = car.Id })"><img src="@GetFirstImage(car)" class="card-img-top" alt="Car Image" width="300" height="350"></a>
                     <h2>@car.Brand @car.Model (@car.Year)</h2>
                     <p><strong>Mileage:</strong> @car.Kilometers km</p>
                     <p><strong>Fuel:</strong> @car.Fuel</p>
                     <p><strong>Price:</strong> €@car.Price</p>
-                    <p>@car.Description</p>
                 </div>
             }
         </div>
