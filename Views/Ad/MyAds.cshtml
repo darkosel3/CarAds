@@ -1,0 +1,25 @@
+﻿@model List<CarAds.Models.Ad>
+
+@{
+    ViewData["Title"] = "My Ads";
+}
+
+<h1>My Ads</h1>
+
+@if (Model != null && Model.Any())
+{
+    <div class="grid">
+        @foreach (var car in Model)
+        {
+            <div class="car-card">
+                <h3>@car.Brand @car.Model (@car.Year)</h3>
+                <a asp-controller="Ad" asp-action="Edit" asp-route-id="@car.Id">Edit</a> |
+                <a asp-controller="Ad" asp-action="Delete" asp-route-id="@car.Id">Delete</a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>You haven't posted any ads yet.</p>
+}
