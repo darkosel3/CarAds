@@ -20,9 +20,6 @@ namespace CarAds.Models
         public string Content { get; set; } // Sadržaj komentara
 
         [BsonRequired]
-        public ApplicationUser User { get; set; } // Korisnik koji je ostavio komentar
-
-        [BsonRequired]
         public DateTime CreatedAt { get; set; } // Datum i vreme kada je komentar ostavljen
     }
 }

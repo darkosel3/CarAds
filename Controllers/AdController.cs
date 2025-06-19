@@ -36,14 +36,26 @@ namespace CarAds.Controllers
             return View();
         }
 
-        public IActionResult Details(string id)
+        //public IActionResult Details(string id)
+        //{
+        //    if (!ObjectId.TryParse(id, out var objectId))
+        //        return BadRequest("Neispravan ID");
+
+        //    var detailedAd = _ads.Find(a => a.Id == objectId).FirstOrDefaultAsync();
+        //    if(detailedAd == null)
+        //        return NotFound("Ad does not exist");
+        //    return View(detailedAd);
+        //}
+        public async Task<IActionResult> Details(string id)
         {
             if (!ObjectId.TryParse(id, out var objectId))
                 return BadRequest("Neispravan ID");
 
-            var detailedAd = _ads.Find(a => a.Id == objectId).FirstOrDefaultAsync();
-            if(detailedAd == null)
+            var detailedAd = await _ads.Find(a => a.Id == objectId).FirstOrDefaultAsync();
+
+            if (detailedAd == null)
                 return NotFound("Ad does not exist");
+
             return View(detailedAd);
         }
 
@@ -51,11 +63,16 @@ namespace CarAds.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Ad ad, List<IFormFile> images)
         {
+            var userId = _userManager.GetUserId(User);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            ad.UserId = userId;
+            ad.CreatedAt = DateTime.UtcNow;
+
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
-                //var userId = _userManager.GetUserId(User);
-                //ad.UserId = new ObjectId(userId);
-                ad.UserId = new ObjectId("000000000000000000000001");
 
                 if (images != null && images.Count > 0)
                 {
@@ -70,7 +87,6 @@ namespace CarAds.Controllers
                                 imageList.Add(new BsonBinaryData(ms.ToArray()));
                             }
                         }
-
                         ad.Images = imageList;
                   
                 }
@@ -137,7 +153,7 @@ namespace CarAds.Controllers
                 ? ObjectId.Parse("000000000000000000000001")
                 : ObjectId.Parse(userIdString);
             
-            var ad = await _ads.Find(c => c.Id == objectId && c.UserId == userId).FirstOrDefaultAsync();
+            var ad = await _ads.Find(c => c.Id == objectId && c.UserId == userIdString).FirstOrDefaultAsync();
             if (ad == null)
                 return NotFound();
 
@@ -166,10 +182,9 @@ namespace CarAds.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var userId = ObjectId.Parse(userIdString);
 
 
-            var myAds = await _ads.Find(ad => ad.UserId == userId).ToListAsync();
+            var myAds = await _ads.Find(ad => ad.UserId == userIdString).ToListAsync();
 
             return View(myAds);
         }
