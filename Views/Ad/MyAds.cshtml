@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "My Ads";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1 class="txt">My Ads</h1>
@@ -19,7 +20,7 @@
                     <form asp-action="Delete" asp-route-id="@car.Id" method="post" style="display:inline;">
                         <button type="submit" class="btn elegant-btn delete-btn" onclick="return confirm('Are you sure you want to delete this car?');">Delete</button>
                     </form>
-                    <a class="details-btn" href="/Ad/Details/@car.Id">Details</a>
+                    <a class="elegant-btn details-btn" href="/Ad/Details/@car.Id">Details</a>
                 </div>
             </div>
         }

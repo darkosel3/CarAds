@@ -47,7 +47,7 @@
 }
 
 .details-btn {
-    background-color: #6b7280; /* siva nijansa iz Tailwind palete */
+    background-color: #6b7280;
     color: #fff;
     padding: 10px 22px;
     font-size: 15px;
@@ -68,4 +68,9 @@
 
 .txt {
     font-family: 'Segoe UI', sans-serif !important;
+}
+
+#main-title-listing {
+    color: #1e40af;
+    text-shadow: 1px 0 black;
 }

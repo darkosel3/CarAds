@@ -1,6 +1,7 @@
 body {
     background-color: #f0f4f8;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-bottom: 200px;
 }
 
 .register-container {
@@ -68,4 +69,11 @@ body {
 
 .login-link a:hover {
     text-decoration: underline;
+}
+
+footer {
+    position: absolute !important;
+    bottom: 10px !important;
+    width: 95% !important;
+    margin-left: 10px !important;
 }

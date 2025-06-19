@@ -69,3 +69,10 @@ body {
 .register-link a:hover {
     text-decoration: underline;
 }
+
+footer {
+    position: absolute;
+    bottom: 10px;
+    width: 95%;
+    margin-left: 10px;
+}

@@ -26,7 +26,6 @@
     </div>
 </section>
 <section class="comment-section">
-    @* <p>User: @comment.User != null ? @comment.User.UserName : "Nepoznat korisnik"</p> *@
     <form asp-controller="Ad" asp-action="AddComment" method="post">
         <input type="hidden" name="adId" value="@Model.Id" />
         <div>
@@ -40,14 +39,16 @@
     {
         <div>
             <h3>Komentari</h3>
-            @foreach(var comment in Model.Comments)
-            {
-                <div>
-                    <p>User: @comment.User.UserName</p>
-                    <p>Comment: @comment.Content</p>
-                    <small>Posted on: @comment.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
-                </div>
-            }
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="comment">
+                        <div class="comment-header">
+                            <span class="comment-user">👤 @comment.User?.UserName</span>
+                            <span class="comment-date">🕒 @comment.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                        </div>
+                        <p class="comment-content">@comment.Content</p>
+                    </div>
+                }
         </div>
     }
     }

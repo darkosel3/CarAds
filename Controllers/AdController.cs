@@ -159,7 +159,7 @@ namespace CarAds.Controllers
                     ModelState.AddModelError(string.Empty, subError.ErrorMessage);
                 }
             }
-            return View(ad); // DARKO Comment  -> nema potrebe da se vraca nad add car, vec samo moze da se vraca view sa trenutnim autom View(ad);
+            return View(ad);
         }
         public async Task<IActionResult> Edit(string id)
         {
@@ -185,7 +185,6 @@ namespace CarAds.Controllers
             if (existingAd == null)
                 return NotFound();
 
-            // Update fields
             existingAd.Brand = updatedAd.Brand;
             existingAd.Model = updatedAd.Model;
             existingAd.Year = updatedAd.Year;
@@ -193,7 +192,6 @@ namespace CarAds.Controllers
             existingAd.Price = updatedAd.Price;
             existingAd.Kilometers = updatedAd.Kilometers;
             existingAd.Description = updatedAd.Description;
-            existingAd.UserId = existingAd.UserId;
 
 
             await _ads.ReplaceOneAsync(c => c.Id == objectId, existingAd);
