@@ -12,11 +12,11 @@
             @foreach (var car in Model)
             {
                 <div class="car-card">
-                    <img alt="@car.Brand @car.Model" />
-                    @* <img src="@car.ImagePath" alt="@car.Brand @car.Model" /> TODO kad se doda img path iskoristi ovo  *@
                     <a href="@Url.Action("Details","Ad",new { id = car.Id })"><img src="@GetFirstImage(car)" class="card-img-top" alt="Car Image" width="300" height="350"></a>
                     <h2>@car.Brand @car.Model (@car.Year)</h2>
-                    <a href="/Ad/Details/@car.Id">Details..</a>
+                    <div class="btn-wrap">
+                        <a class="details-btn" href="/Ad/Details/@car.Id">Vehicle Details</a>
+                    </div>
                 </div>
             }
         </div>
@@ -26,6 +26,7 @@
         <p>No listings available.</p>
     }
 </div>
+
 
 @section Styles {
     <link rel="stylesheet" href="~/css/list.css" />

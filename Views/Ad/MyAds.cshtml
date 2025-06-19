@@ -4,7 +4,7 @@
     ViewData["Title"] = "My Ads";
 }
 
-<h1>My Ads</h1>
+<h1 class="txt">My Ads</h1>
 
 @if (Model != null && Model.Any())
 {
@@ -12,14 +12,14 @@
         @foreach (var car in Model)
         {
             <div class="car-card">
-                <h3>@car.Brand @car.Model (@car.Year)</h3>
-                <a asp-controller="Ad" asp-action="Edit" asp-route-id="@car.Id">Edit</a> |
-                <a asp-controller="Ad" asp-action="Delete" asp-route-id="@car.Id">Delete</a>
+                <a href="@Url.Action("Details","Ad",new { id = car.Id })"><img src="@GetFirstImage(car)" class="card-img-top" alt="Car Image" width="300" height="350"></a>
+                <h3 class="txt">@car.Brand @car.Model (@car.Year)</h3>
                 <div class="details-actions">
                     <a href="/Ad/Edit/@car.Id" class="btn elegant-btn edit-btn">Edit</a>
                     <form asp-action="Delete" asp-route-id="@car.Id" method="post" style="display:inline;">
                         <button type="submit" class="btn elegant-btn delete-btn" onclick="return confirm('Are you sure you want to delete this car?');">Delete</button>
                     </form>
+                    <a class="details-btn" href="/Ad/Details/@car.Id">Details</a>
                 </div>
             </div>
         }
@@ -32,4 +32,17 @@ else
 
 @section Styles {
     <link rel="stylesheet" href="~/css/details.css" />
+    <link rel="stylesheet" href="~/css/list.css" />
+}
+
+@functions {
+    string GetFirstImage(CarAds.Models.Ad car)
+    {
+        if (car.Images != null && car.Images.Any())
+        {
+            var base64Image = Convert.ToBase64String(car.Images[0].AsByteArray);
+            return $"data:image/jpeg;base64,{base64Image}";
+        }
+        return "";
+    }
 }
