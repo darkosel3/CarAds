@@ -22,7 +22,6 @@
 
                 <ul class="navbar-links" id="navbarMenu">
                     <li><a href="/">Home</a></li>
-                    <p>User authenticated? @User.Identity?.IsAuthenticated</p>
                     <li><a href="/Ad/Index">Browse</a></li>
                     @{
                         @if (User.Identity?.IsAuthenticated == true)
