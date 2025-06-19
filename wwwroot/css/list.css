@@ -2,6 +2,7 @@
     max-width: 1200px;
     margin: 40px auto;
     padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 .grid {
@@ -16,6 +17,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     padding: 20px;
     transition: transform 0.2s;
+    font-family: 'Segoe UI', sans-serif !important;
 }
 
 .car-card:hover {
@@ -37,4 +39,33 @@
 
 .car-card p {
     margin: 4px 0;
+}
+
+.car-card .btn-wrap {
+    margin-top: 5px;
+    text-align: right;
+}
+
+.details-btn {
+    background-color: #6b7280; /* siva nijansa iz Tailwind palete */
+    color: #fff;
+    padding: 10px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.15s ease;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+    .details-btn:hover {
+        background-color: #4b5563; /* tamnija nijansa na hover */
+        transform: translateY(-1px);
+    }
+
+.txt {
+    font-family: 'Segoe UI', sans-serif !important;
 }

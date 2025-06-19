@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Runtime.ConstrainedExecution;
+using Amazon.Runtime.Internal.Util;
+using Microsoft.Extensions.Logging;
 
 namespace CarAds.Controllers
 {
@@ -18,11 +20,13 @@ namespace CarAds.Controllers
     {
         private readonly IMongoCollection<Ad> _ads;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<AdController> _logger;
 
-        public AdController(IMongoDatabase database, UserManager<ApplicationUser> userManager)
+        public AdController(IMongoDatabase database, UserManager<ApplicationUser> userManager, ILogger<AdController> logger)
         {
             _ads = database.GetCollection<Ad>("Ads");
             _userManager = userManager;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -122,25 +126,25 @@ namespace CarAds.Controllers
             if (!ObjectId.TryParse(id, out var objectId))
                 return BadRequest();
 
-            if (ModelState.IsValid)
-            {
-                var existingAd = await _ads.Find(c => c.Id == objectId).FirstOrDefaultAsync();
-                if (existingAd == null)
-                    return NotFound();
 
-                // Update fields
-                existingAd.Brand = updatedAd.Brand;
-                existingAd.Model = updatedAd.Model;
-                existingAd.Year = updatedAd.Year;
-                existingAd.Price = updatedAd.Price;
-                existingAd.Description = updatedAd.Description;
+            var existingAd = await _ads.Find(c => c.Id == objectId).FirstOrDefaultAsync();
+            if (existingAd == null)
+                return NotFound();
+
+            // Update fields
+            existingAd.Brand = updatedAd.Brand;
+            existingAd.Model = updatedAd.Model;
+            existingAd.Year = updatedAd.Year;
+            existingAd.Fuel = updatedAd.Fuel;
+            existingAd.Price = updatedAd.Price;
+            existingAd.Kilometers = updatedAd.Kilometers;
+            existingAd.Description = updatedAd.Description;
+            existingAd.UserId = existingAd.UserId;
 
 
-                await _ads.ReplaceOneAsync(c => c.Id == objectId, existingAd);
-                return RedirectToAction("Index");
-            }
+            await _ads.ReplaceOneAsync(c => c.Id == objectId, existingAd);
 
-            return View(updatedAd);
+            return RedirectToAction("MyAds");
         }
         public async Task<IActionResult> Delete(string id)
         {
@@ -148,16 +152,12 @@ namespace CarAds.Controllers
                 return BadRequest();
 
             var userIdString = _userManager.GetUserId(User);
-
-            var userId = string.IsNullOrEmpty(userIdString)
-                ? ObjectId.Parse("000000000000000000000001")
-                : ObjectId.Parse(userIdString);
             
             var ad = await _ads.Find(c => c.Id == objectId && c.UserId == userIdString).FirstOrDefaultAsync();
             if (ad == null)
                 return NotFound();
 
-            return View(ad); // Shows confirmation page
+            return RedirectToAction("MyAds");
         }
 
         [HttpPost, ActionName("Delete")]
