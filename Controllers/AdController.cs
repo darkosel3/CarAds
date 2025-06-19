@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CarAds.Controllers
 {
+    [Authorize]
     public class AdController : Controller
     {
         private readonly IMongoCollection<Ad> _ads;
@@ -28,10 +29,35 @@ namespace CarAds.Controllers
             _userManager = userManager;
             _logger = logger;
         }
+        //existingAd.Brand = updatedAd.Brand;
+        //    existingAd.Model = updatedAd.Model;
+        //    existingAd.Year = updatedAd.Year;
+        //    existingAd.Fuel = updatedAd.Fuel;
+        //    existingAd.Price = updatedAd.Price;
+            //existingAd.Kilometers = updatedAd.Kilometers;
 
-        public async Task<IActionResult> Index()
+
+
+        public async Task<IActionResult> Index(string brand, string model,string year, string fuel)
         {
-            var allAds = await _ads.Find(ad => true).ToListAsync();
+            var filterBuilder = Builders<Ad>.Filter;
+            var filters = new List<FilterDefinition<Ad>>(); 
+
+            if (!string.IsNullOrEmpty(brand))
+                filters.Add(filterBuilder.Eq(ad => ad.Brand, brand));
+
+            if (!string.IsNullOrEmpty(model))
+                filters.Add(filterBuilder.Eq(c => c.Model,model));
+
+            if (!string.IsNullOrEmpty(year) && int.TryParse(year, out int yearValue))
+                filters.Add(filterBuilder.Eq(c => c.Year, yearValue));
+
+            if(!string.IsNullOrEmpty(fuel))
+                filters.Add(filterBuilder.Eq(c => c.Fuel, fuel));
+
+            var filter = filters.Count > 0 ? filterBuilder.And(filters) : filterBuilder.Empty;  
+
+            var allAds = await _ads.Find(filter).ToListAsync();
             return View(allAds);
         }
 
@@ -65,7 +91,6 @@ namespace CarAds.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> AddComment(string adId, string commentText)
         {
             var ad = await _ads.Find(c => c.Id == new ObjectId(adId)).FirstOrDefaultAsync();
