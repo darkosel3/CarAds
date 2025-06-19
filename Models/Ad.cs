@@ -42,8 +42,7 @@ namespace CarAds.Models
         public string Description { get; set; }
 
         [BsonElement("UserId")]
-        [BsonRequired]
-        public ObjectId UserId { get; set; }  // Referenca na User-a
+        public string UserId { get; set; }  // Referenca na User-a
 
         [BsonElement("Images")]
         public List<BsonBinaryData> Images { get; set; }
