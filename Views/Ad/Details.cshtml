@@ -26,16 +26,37 @@
     </div>
 </section>
 <section class="comment-section">
-    <form asp-action="AddComment" asp-controller="Ad" method="post">
+    @* <p>User: @comment.User != null ? @comment.User.UserName : "Nepoznat korisnik"</p> *@
+    <form asp-controller="Ad" asp-action="AddComment" method="post">
         <input type="hidden" name="adId" value="@Model.Id" />
-        <textarea name="content" required placeholder="Unesite komentar..."></textarea>
-        <button type="submit">Dodaj komentar</button>
+        <div>
+            <label for="comment">Comment:</label>
+            <textarea name="commentText" id="comment" required placeholder="Unesite komentar..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj komentar</button>
     </form>
+    @{
+    if(Model.Comments != null && Model.Comments.Any())
+    {
+        <div>
+            <h3>Komentari</h3>
+            @foreach(var comment in Model.Comments)
+            {
+                <div>
+                    <p>User: @comment.User.UserName</p>
+                    <p>Comment: @comment.Content</p>
+                    <small>Posted on: @comment.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                </div>
+            }
+        </div>
+    }
+    }
 </section>
 
 
 @section Styles {
     <link rel="stylesheet" href="~/css/details.css" />
+
 }
 
 @functions {

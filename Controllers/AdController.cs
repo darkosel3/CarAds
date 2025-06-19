@@ -36,16 +36,7 @@ namespace CarAds.Controllers
             return View();
         }
 
-        //public IActionResult Details(string id)
-        //{
-        //    if (!ObjectId.TryParse(id, out var objectId))
-        //        return BadRequest("Neispravan ID");
-
-        //    var detailedAd = _ads.Find(a => a.Id == objectId).FirstOrDefaultAsync();
-        //    if(detailedAd == null)
-        //        return NotFound("Ad does not exist");
-        //    return View(detailedAd);
-        //}
+   
         public async Task<IActionResult> Details(string id)
         {
             if (!ObjectId.TryParse(id, out var objectId))
@@ -53,10 +44,48 @@ namespace CarAds.Controllers
 
             var detailedAd = await _ads.Find(a => a.Id == objectId).FirstOrDefaultAsync();
 
+            if(detailedAd.Comments != null)
+            {
+                foreach(var comment in detailedAd.Comments)
+                {
+                    var user = await _userManager.FindByIdAsync(comment.UserId);
+                    if (user != null) 
+                        comment.User = user; // Popunjavanje korisnika za svaki komentar
+                }
+            }
+
             if (detailedAd == null)
                 return NotFound("Ad does not exist");
 
             return View(detailedAd);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddComment(string adId, string commentText)
+        {
+            var ad = await _ads.Find(c => c.Id == new ObjectId(adId)).FirstOrDefaultAsync();
+            if (ad == null)
+                return NotFound("Ad not found");
+            if (string.IsNullOrWhiteSpace(commentText))
+                return BadRequest("Comment cannot be empty");
+
+            var comment = new Comment
+            {
+                Content = commentText,
+                AdId = adId,
+                CreatedAt = DateTime.UtcNow,
+                UserId = _userManager.GetUserId(User) // Assuming the user is logged in
+            };
+
+            ad.Comments.Add(comment);
+            var result = await _ads.ReplaceOneAsync(c => c.Id == new ObjectId(adId), ad);
+            if (result.ModifiedCount > 0)
+            {
+                return RedirectToAction("Details", new { id = adId });
+            }
+
+           return BadRequest("Failed to add comment");
         }
 
 

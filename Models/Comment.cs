@@ -21,5 +21,8 @@ namespace CarAds.Models
 
         [BsonRequired]
         public DateTime CreatedAt { get; set; } // Datum i vreme kada je komentar ostavljen
+
+        public ApplicationUser User { get; set; }
+
     }
 }
